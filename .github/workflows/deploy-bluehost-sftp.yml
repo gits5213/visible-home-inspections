@@ -1,0 +1,40 @@
+name: Deploy to Bluehost (SFTP)
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build static export
+        run: npm run build
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+
+      - name: Deploy to Bluehost via SFTP
+        uses: easingthemes/ssh-deploy@v4.1.8
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.BLUEHOST_SSH_KEY }}
+          REMOTE_HOST: ${{ secrets.BLUEHOST_HOST }}
+          REMOTE_USER: ${{ secrets.BLUEHOST_USERNAME }}
+          REMOTE_PORT: ${{ secrets.BLUEHOST_PORT || '22' }}
+          SOURCE: "out/"
+          TARGET: ${{ secrets.BLUEHOST_DEPLOY_PATH || '/public_html/' }}
+
