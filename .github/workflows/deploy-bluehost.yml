@@ -43,4 +43,7 @@ jobs:
             **/node_modules/**
             **/.env*
             **/.DS_Store
+          dry-run: false
+          log-level: verbose
+          timeout: 300000
 
