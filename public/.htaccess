@@ -1,16 +1,15 @@
 # Prioritize index.html (Next.js static site)
 DirectoryIndex index.html
 
-# Enable Rewrite Engine
+# Custom Error Pages
+ErrorDocument 404 /404.html
+
+# Enable Rewrite Engine for Next.js routing
 <IfModule mod_rewrite.c>
   RewriteEngine On
   
-  # Handle trailing slashes
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_URI} !(.*)/$
-  RewriteRule ^(.*)$ $1/ [L,R=301]
-  
   # Handle Next.js client-side routing
+  # Only rewrite if file/directory doesn't exist
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{REQUEST_URI} !^/_next/
@@ -18,18 +17,10 @@ DirectoryIndex index.html
   RewriteRule ^(.*)$ /index.html [L]
 </IfModule>
 
-# Custom Error Pages - Must be absolute path from document root
-ErrorDocument 404 /404.html
-
 # Security Headers
 <IfModule mod_headers.c>
-  # Prevent clickjacking
   Header always set X-Frame-Options "SAMEORIGIN"
-  
-  # XSS Protection
   Header always set X-XSS-Protection "1; mode=block"
-  
-  # Prevent MIME type sniffing
   Header always set X-Content-Type-Options "nosniff"
 </IfModule>
 
