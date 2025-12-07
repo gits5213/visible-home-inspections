@@ -1,3 +1,6 @@
+# Prioritize index.html over index.php (Next.js over WordPress)
+DirectoryIndex index.html index.php
+
 # Enable Rewrite Engine
 <IfModule mod_rewrite.c>
   RewriteEngine On
@@ -16,6 +19,7 @@
   RewriteCond %{REQUEST_URI} !^/wp-content/
   RewriteCond %{REQUEST_URI} !^/wp-includes/
   RewriteCond %{REQUEST_URI} !^/cgi-bin/
+  RewriteCond %{REQUEST_URI} !^/wp-.*\.php$
   RewriteRule ^(.*)$ /index.html [L]
 </IfModule>
 
