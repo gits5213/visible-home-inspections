@@ -36,6 +36,8 @@ After upload, your `public_html` should contain:
 ```
 public_html/
 ├── index.html
+├── .htaccess (important for 404 handling and routing)
+├── 404.html
 ├── about/
 ├── contact/
 ├── services/
@@ -44,6 +46,12 @@ public_html/
 ├── images/
 └── ... (other static files)
 ```
+
+**Important:** The `.htaccess` file is included in the build output and is essential for:
+- Custom 404 error page handling
+- Next.js client-side routing
+- Security headers
+- Performance optimization (compression, caching)
 
 ### 4. Verify Deployment
 
@@ -75,8 +83,11 @@ This will regenerate the `out/` folder with updated files. Upload the new files 
 ## Troubleshooting
 
 ### 404 Errors
-- Ensure `.htaccess` file is uploaded (if needed for routing)
+- **IMPORTANT:** Ensure `.htaccess` file is uploaded to `public_html` root
+- The `.htaccess` file configures Apache to use your custom 404.html page
+- Verify `.htaccess` file permissions (should be 644)
 - Check that all files are in `public_html` root
+- If you still see the default Apache 404 page, make sure `.htaccess` is in the root directory
 
 ### Images Not Loading
 - Verify `images/` folder is uploaded correctly
