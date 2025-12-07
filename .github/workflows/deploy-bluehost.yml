@@ -38,9 +38,13 @@ jobs:
           ls -la ./out/ | head -20
           if [ ! -f "./out/.htaccess" ]; then
             echo "Warning: .htaccess file not found in build output"
+            echo "Copying from public/.htaccess..."
+            cp public/.htaccess ./out/.htaccess || echo "Failed to copy .htaccess"
           else
             echo "✓ .htaccess file found"
           fi
+          echo "Verifying .htaccess content:"
+          head -5 ./out/.htaccess || echo "Could not read .htaccess"
 
       - name: Deploy to Bluehost via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5

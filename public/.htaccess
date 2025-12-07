@@ -14,7 +14,7 @@
   RewriteRule ^(.*)$ /index.html [L]
 </IfModule>
 
-# Custom Error Pages
+# Custom Error Pages - Must be absolute path from document root
 ErrorDocument 404 /404.html
 
 # Security Headers
@@ -46,4 +46,3 @@ ErrorDocument 404 /404.html
   ExpiresByType application/javascript "access plus 1 month"
   ExpiresByType application/pdf "access plus 1 month"
 </IfModule>
-
