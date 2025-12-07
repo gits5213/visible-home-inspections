@@ -1,5 +1,5 @@
-# Prioritize index.html over index.php (Next.js over WordPress)
-DirectoryIndex index.html index.php
+# Prioritize index.html (Next.js static site)
+DirectoryIndex index.html
 
 # Enable Rewrite Engine
 <IfModule mod_rewrite.c>
@@ -11,15 +11,10 @@ DirectoryIndex index.html index.php
   RewriteRule ^(.*)$ $1/ [L,R=301]
   
   # Handle Next.js client-side routing
-  # Exclude WordPress and other system directories
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{REQUEST_URI} !^/_next/
-  RewriteCond %{REQUEST_URI} !^/wp-admin/
-  RewriteCond %{REQUEST_URI} !^/wp-content/
-  RewriteCond %{REQUEST_URI} !^/wp-includes/
   RewriteCond %{REQUEST_URI} !^/cgi-bin/
-  RewriteCond %{REQUEST_URI} !^/wp-.*\.php$
   RewriteRule ^(.*)$ /index.html [L]
 </IfModule>
 
