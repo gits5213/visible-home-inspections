@@ -34,6 +34,7 @@ jobs:
       - name: Build static export
         run: npm run build
         env:
+          GITHUB_PAGES: 'true'
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
 
       - name: Verify build output
