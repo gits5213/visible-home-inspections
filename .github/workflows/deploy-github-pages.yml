@@ -35,6 +35,7 @@ jobs:
         run: npm run build
         env:
           GITHUB_PAGES: 'true'
+          CUSTOM_DOMAIN: ${{ secrets.CUSTOM_DOMAIN || 'false' }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
 
       - name: Verify build output
