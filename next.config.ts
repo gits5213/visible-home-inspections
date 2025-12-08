@@ -1,11 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: 'export', // Enable static export for Cloudflare Pages
+  output: 'export', // Enable static export for GitHub Pages
   images: {
     unoptimized: true, // Required for static export
   },
-  trailingSlash: true, // Better compatibility with Cloudflare Pages
+  trailingSlash: true, // Better compatibility with GitHub Pages
 };
 
 export default nextConfig;
