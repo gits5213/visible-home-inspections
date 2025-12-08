@@ -1,5 +1,8 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
+import { getImagePath } from '@/app/utils/imagePath';
 
 export default function Header() {
   return (
@@ -26,7 +29,7 @@ export default function Header() {
           <div className="flex justify-between items-center">
             <Link href="/" className="flex items-center gap-3">
               <Image
-                src="/images/visibleHomeInspectionLLCLogo.png"
+                src={getImagePath("/images/visibleHomeInspectionLLCLogo.png")}
                 alt="Visible Home Inspections LLC"
                 width={200}
                 height={60}

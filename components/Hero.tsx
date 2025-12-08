@@ -1,5 +1,8 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
+import { getImagePath } from '@/app/utils/imagePath';
 
 export default function Hero() {
   return (
@@ -55,7 +58,7 @@ export default function Hero() {
           {/* Right side - Image */}
           <div className="flex justify-center items-center order-first lg:order-last">
             <Image
-              src="/images/visible-Home-Inspection-Image.png"
+              src={getImagePath("/images/visible-Home-Inspection-Image.png")}
               alt="Home Inspection Professional"
               width={600}
               height={600}
