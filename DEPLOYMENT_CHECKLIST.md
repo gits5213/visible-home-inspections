@@ -1,89 +1,147 @@
 # Deployment Verification Checklist
 
-Use this checklist to verify your site is deployed correctly on Bluehost.
+Use this checklist to verify your site is deployed correctly on Cloudflare Pages.
 
 ## Pre-Deployment Checklist
 
 - [ ] Site builds successfully: `npm run build`
 - [ ] `out/` directory contains all files
-- [ ] `.htaccess` file exists in `out/` directory
+- [ ] `404.html` file exists in `out/` directory
 - [ ] `index.html` exists in `out/` directory
+- [ ] Environment variables are configured in Cloudflare Pages dashboard
 
-## Upload Checklist
+## Cloudflare Pages Setup Checklist
 
-- [ ] Logged into Bluehost cPanel
-- [ ] Navigated to File Manager
-- [ ] Opened `public_html` folder (or `www` folder for your domain)
-- [ ] Deleted old files (backed up if needed)
-- [ ] Uploaded ALL files from `out/` folder to `public_html` root
-- [ ] Verified `.htaccess` file is visible in `public_html` root
-- [ ] Verified `index.html` is in `public_html` root
+- [ ] Cloudflare account created
+- [ ] GitHub repository connected to Cloudflare Pages
+- [ ] Build settings configured:
+  - [ ] Build command: `npm run build`
+  - [ ] Build output directory: `out`
+  - [ ] Production branch: `main`
+- [ ] Environment variables set:
+  - [ ] `RESEND_API_KEY` configured
+- [ ] Initial deployment successful
+
+## Custom Domain Setup (Optional)
+
+- [ ] Custom domain added in Cloudflare Pages dashboard
+- [ ] DNS records configured:
+  - [ ] CNAME record pointing to `*.pages.dev` subdomain
+  - [ ] Or A record if required by DNS provider
+- [ ] SSL certificate provisioned (automatic, wait 5-10 minutes)
+- [ ] DNS propagation verified (check with `dig` or online DNS checker)
 
 ## File Verification
 
-Check these files exist in `public_html` root:
+After deployment, verify these files exist in the build output:
 - [ ] `index.html`
-- [ ] `.htaccess` (may be hidden - enable "Show Hidden Files" in File Manager)
 - [ ] `404.html`
 - [ ] `_next/` folder
 - [ ] `images/` folder
 - [ ] `about/` folder
 - [ ] `contact/` folder
-
-## File Permissions Check
-
-In File Manager, verify permissions:
-- [ ] `.htaccess` = **644**
-- [ ] `index.html` = **644**
-- [ ] All folders = **755**
-
-## Domain Configuration
-
-- [ ] Domain `visiblehomeinspections.com` is active
-- [ ] Domain is pointing to `public_html` directory
-- [ ] DNS records are correct (check in cPanel → Domains)
-- [ ] Domain is not parked or suspended
+- [ ] All route folders (services, pricing, etc.)
 
 ## Testing
 
-- [ ] Visit `https://visiblehomeinspections.com` - should show homepage
-- [ ] Visit `https://visiblehomeinspections.com/index.html` - should show homepage
+- [ ] Visit Cloudflare Pages URL: `https://visible-home-inspections.pages.dev`
+- [ ] Visit custom domain (if configured): `https://visiblehomeinspections.com`
 - [ ] Test navigation links (About, Contact, Services, etc.)
+- [ ] Test 404 page (visit a non-existent URL)
 - [ ] Check browser console for errors (F12 → Console tab)
 - [ ] Test on mobile device or different browser
+- [ ] Test contact form submission
+- [ ] Verify images load correctly
+- [ ] Check CSS/JavaScript loads correctly
+
+## Performance Verification
+
+- [ ] Site loads quickly (< 3 seconds)
+- [ ] Images are optimized and load properly
+- [ ] No console errors
+- [ ] Mobile responsive design works
+- [ ] SSL certificate is valid (green lock icon)
+
+## Automatic Deployment Verification
+
+- [ ] Push to `main` branch triggers automatic deployment
+- [ ] Deployment appears in Cloudflare Pages dashboard
+- [ ] Build logs show successful build
+- [ ] Site updates within 1-2 minutes after push
 
 ## Common Issues & Solutions
 
-### Issue: "Error. Page cannot be displayed"
-**Solutions:**
-1. Verify `index.html` exists in `public_html` root
-2. Check `.htaccess` file permissions (should be 644)
-3. Verify domain is pointing to correct directory
-4. Check DNS is resolving correctly
-5. Try accessing `index.html` directly
+### Issue: Build Fails
 
-### Issue: 404 errors on navigation
 **Solutions:**
-1. Ensure `.htaccess` file is in root directory
-2. Verify `.htaccess` file permissions (644)
-3. Check mod_rewrite is enabled (contact Bluehost support)
+1. Check build logs in Cloudflare Pages dashboard
+2. Verify `RESEND_API_KEY` environment variable is set
+3. Ensure all dependencies are in `package.json`
+4. Verify `next.config.ts` has `output: 'export'`
+5. Check Node.js version compatibility (Cloudflare uses Node.js 18.x)
+
+### Issue: 404 errors on routes
+
+**Solutions:**
+1. Verify `404.html` exists in `out/` directory
+2. Check that all routes are properly exported
+3. Cloudflare Pages handles Next.js routing automatically
+4. Verify build output includes all route folders
 
 ### Issue: Images not loading
+
 **Solutions:**
-1. Verify `images/` folder was uploaded
-2. Check file paths in browser console
-3. Verify image files exist in `public_html/images/`
+1. Verify `images/` folder is in build output
+2. Check image paths are correct
+3. Ensure images are in `public/` directory before building
+4. Check browser console for 404 errors on images
 
 ### Issue: CSS/JS not loading
+
 **Solutions:**
-1. Verify `_next/` folder was uploaded completely
+1. Verify `_next/` folder is in build output
 2. Check browser console for 404 errors
-3. Verify file permissions on `_next/` folder (755)
+3. Verify build completed successfully
+4. Clear browser cache and try again
+
+### Issue: Contact form not working
+
+**Solutions:**
+1. Verify `RESEND_API_KEY` is set in Cloudflare Pages environment variables
+2. Check API key is valid and has proper permissions
+3. Review browser console for JavaScript errors
+4. Check Resend API dashboard for request logs
+5. Ensure API key is not exposed in client-side code
+
+### Issue: Custom domain not working
+
+**Solutions:**
+1. Verify DNS records are correct (CNAME or A record)
+2. Wait for DNS propagation (can take up to 48 hours)
+3. Check SSL certificate status in Cloudflare dashboard
+4. Verify domain is added to Cloudflare Pages project
+5. Use online DNS checker to verify records
+
+### Issue: Deployment takes too long
+
+**Solutions:**
+1. Check build logs for specific bottlenecks
+2. Review dependencies for large packages
+3. Consider optimizing build process
+4. Check Cloudflare Pages status page for service issues
 
 ## Still Having Issues?
 
-1. **Check Bluehost Error Logs:** cPanel → Metrics → Errors
-2. **Contact Bluehost Support:** They can verify server configuration
-3. **Verify DNS:** Use `nslookup visiblehomeinspections.com` or online DNS checker
-4. **Test with FTP:** Try uploading via FTP client instead of File Manager
+1. **Check Cloudflare Pages Dashboard:** Review build logs and deployment history
+2. **Check GitHub Actions:** If using GitHub Actions workflow, review workflow logs
+3. **Cloudflare Community:** Visit [Cloudflare Community](https://community.cloudflare.com/)
+4. **Cloudflare Documentation:** Review [Cloudflare Pages Docs](https://developers.cloudflare.com/pages/)
+5. **Contact Cloudflare Support:** Available on paid plans, or use community forums
 
+## Post-Deployment
+
+- [ ] Monitor site for 24-48 hours
+- [ ] Set up monitoring/alerts (optional)
+- [ ] Configure custom headers if needed
+- [ ] Set up redirects if needed
+- [ ] Document any custom configurations
