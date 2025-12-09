@@ -190,6 +190,22 @@ You'll need to use A records pointing to GitHub Pages IP addresses:
 
 ## DNS Configuration Examples
 
+### Bluehost (Recommended for this project)
+
+**See detailed guide:** [BLUEHOST_DNS_SETUP.md](./BLUEHOST_DNS_SETUP.md)
+
+**Quick setup:**
+1. Log into Bluehost cPanel
+2. Go to **Domains** → **DNS** or **Advanced** → **DNS Zone Editor**
+3. Add **four A records** for root domain (@):
+   - `185.199.108.153`
+   - `185.199.109.153`
+   - `185.199.110.153`
+   - `185.199.111.153`
+4. Add **CNAME record** for www subdomain:
+   - **Host**: `www`
+   - **Points to**: `gits5213.github.io`
+
 ### GoDaddy
 
 1. Log into GoDaddy

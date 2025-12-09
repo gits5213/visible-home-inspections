@@ -21,18 +21,20 @@ export function getImagePath(path: string): string {
     return path;
   }
   
-  // Client-side: Check if we're on GitHub Pages
-  const isGitHubPages = window.location.hostname === 'gits5213.github.io' || 
-    window.location.pathname.startsWith(BASE_PATH);
+  // Client-side: Check if we're on GitHub Pages subdomain (not custom domain)
+  // Custom domains serve from root, so we should NOT prepend basePath
+  const isGitHubPagesSubdomain = window.location.hostname === 'gits5213.github.io';
+  const isOnBasePath = window.location.pathname.startsWith(BASE_PATH);
   
   // Only prepend basePath if:
-  // 1. We're on GitHub Pages
+  // 1. We're on GitHub Pages subdomain (not custom domain)
   // 2. Path starts with '/' (absolute path)
   // 3. Path doesn't already start with basePath
-  if (isGitHubPages && path.startsWith('/') && !path.startsWith(BASE_PATH)) {
+  if (isGitHubPagesSubdomain && !isOnBasePath && path.startsWith('/') && !path.startsWith(BASE_PATH)) {
     return `${BASE_PATH}${path}`;
   }
   
+  // For custom domains or if already on basePath, return as-is
   return path;
 }
 
