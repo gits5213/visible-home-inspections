@@ -38,6 +38,16 @@ export default function Footer() {
                   Email: info@visiblehomeinspections.com
                 </a>
               </li>
+              <li>
+                <a href="https://gits5213.github.io/gits/" target="_blank" rel="noopener noreferrer" className="hover:text-white">
+                  Education Website
+                </a>
+              </li>
+              <li>
+                <a href="http://visiblehomeinspections.com/" target="_blank" rel="noopener noreferrer" className="hover:text-white">
+                  Visible Home Inspections LLC
+                </a>
+              </li>
             </ul>
           </div>
 
